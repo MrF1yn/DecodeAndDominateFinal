@@ -65,7 +65,7 @@ const Slide = ({ slide, index, current, handleSlideClick }: SlideProps) => {
   const { src, button, title } = slide;
 
   return (
-    <div className="[perspective:1200px] [transform-style:preserve-3d]">
+    <div className="[perspective:1200px] [transform-style:preserve-3d] w-full h-full">
       <li
         ref={slideRef}
         className="flex flex-1 flex-col items-center justify-center relative text-center text-white opacity-100 transition-all duration-300 ease-in-out w-[70vmin] h-[70vmin] mx-[4vmin] z-10 "
@@ -166,6 +166,16 @@ export default function Carousel({ slides }: CarouselProps) {
     setCurrent(next === slides.length ? 0 : next);
   };
 
+  useEffect(() => {
+    setInterval(()=>{
+      console.log("TEST")
+      setCurrent((current)=>{
+        const next = current + 1;
+        return next === slides.length ? 0 : next;
+      });
+    }, 2000)
+  }, []);
+
   const handleSlideClick = (index: number) => {
     if (current !== index) {
       setCurrent(index);
@@ -195,20 +205,6 @@ export default function Carousel({ slides }: CarouselProps) {
           />
         ))}
       </ul>
-
-      <div className="absolute flex justify-center w-full top-[calc(100%+1rem)]">
-        <CarouselControl
-          type="previous"
-          title="Go to previous slide"
-          handleClick={handlePreviousClick}
-        />
-
-        <CarouselControl
-          type="next"
-          title="Go to next slide"
-          handleClick={handleNextClick}
-        />
-      </div>
     </div>
   );
 }
